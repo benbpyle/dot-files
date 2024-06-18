@@ -23,6 +23,12 @@ require("lazy").setup({
         import = "lazyvim.plugins.extras.lang.go"
     }, {
         import = "lazyvim.plugins.extras.coding.luasnip"
+    }, {
+        import = "lazyvim.plugins.extras.lang.yaml"
+
+        -- import = "lazyvim.plugins.extras.test.core"
+    }, {
+        import = "lazyvim.plugins.extras.dap.core"
     }}, -- import/override with your plugins
     {
         import = "plugins"
@@ -51,4 +57,8 @@ require("lazy").setup({
             "tarPlugin", "tohtml", "tutor", "zipPlugin"}
         }
     }
+})
+
+vim.diagnostic.config({
+    update_in_insert = false
 })
