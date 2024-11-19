@@ -8,10 +8,12 @@ local act = wezterm.action
 -- For example, changing the color scheme:
 -- config.color_scheme = "AdventureTime"
 -- config.color_scheme = "One Dark (Gogh)"
-config.font = wezterm.font("JetBrains Mono")
+config.font = wezterm.font("JetBrainsMono Nerd Font")
+--config.font = wezterm.font("ZedMono Nerd Font")
 -- and finally, return the configuration to wezterm
 config.use_fancy_tab_bar = true
 config.color_scheme = "Catppuccin Frappe" -- or Macchiato, Frappe, Latte, Mocha
+-- config.color_scheme = "Kanagawa (Gogh)"
 -- config.color_scheme = "Tokyo Night Moon"
 
 --config.color_scheme = "Catppuccin Frappe" -- or Macchiato, Frappe, Latte
@@ -33,7 +35,12 @@ config.keys = {
 		}),
 	},
 }
-
+config.window_padding = {
+	left = ".5cell",
+	right = ".5cell",
+	top = "0.5cell",
+	bottom = "0.0cell",
+}
 -- config.background = {
 -- 	{
 -- 		source = {
@@ -41,5 +48,6 @@ config.keys = {
 -- 		},
 -- 	},
 -- }
--- config.window_background_opacity = 0.95
+config.window_background_opacity = 0.95
+config.max_fps = 240
 return config
