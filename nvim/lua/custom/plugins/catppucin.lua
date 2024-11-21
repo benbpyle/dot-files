@@ -20,6 +20,7 @@ return {{
             lsp_trouble = true,
             mason = true,
             markdown = true,
+
             mini = true,
             native_lsp = {
                 enabled = true,

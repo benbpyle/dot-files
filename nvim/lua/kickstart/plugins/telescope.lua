@@ -91,6 +91,9 @@ return {{ -- Fuzzy Finder (files, lsp, etc)
         vim.keymap.set('n', '<leader>sd', builtin.diagnostics, {
             desc = '[S]earch [D]iagnostics'
         })
+        vim.keymap.set('n', "<leader>bs", builtin.treesitter, {
+            desc = "[B]uffer [S]ymbol"
+        })
         -- vim.keymap.set('n', '<leader>sr', builtin.resume, {
         --     desc = '[S]earch [R]esume'
         -- })

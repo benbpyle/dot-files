@@ -40,76 +40,53 @@ return {{ -- Autocompletion
                     luasnip.lsp_expand(args.body)
                 end
             },
+            -- window = {
+            --     completion = cmp.config.window.bordered(),
+            --     documentation = cmp.config.window.bordered()
+            -- },
             window = {
-                completion = cmp.config.window.bordered(),
-                documentation = cmp.config.window.bordered()
+                completion = {
+                    winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+                    col_offset = -3,
+                    side_padding = 0
+                }
             },
+            -- preselect = cmp.PreselectMode.,
             completion = {
-                completeopt = 'menu,menuone,noinsert'
+                completion = cmp.config.window.bordered({
+                    winhighlight = "Normal:Normal,FloatBorder:BorderBG,CursorLine:PmenuSel,Search:None"
+                }),
+                completeopt = "menu,menuone,noinsert,noselect"
             },
 
-            -- For an understanding of why these mappings were
-            -- chosen, you will need to read `:help ins-completion`
-            --
-            -- No, but seriously. Please read `:help ins-completion`, it is really good!
+            formatting = {
+                fields = {"kind", "abbr", "menu"},
+                format = function(entry, vim_item)
+                    local kind = require("lspkind").cmp_format({
+                        mode = "symbol_text",
+                        maxwidth = 50
+                    })(entry, vim_item)
+                    local strings = vim.split(kind.kind, "%s", {
+                        trimempty = true
+                    })
+                    kind.kind = " " .. (strings[1] or "") .. " "
+                    kind.menu = "    (" .. (strings[2] or "") .. ")"
+
+                    return kind
+                end
+            },
+            preselect = cmp.PreselectMode.None,
             mapping = cmp.mapping.preset.insert {
 
                 ["<C-b>"] = cmp.mapping.scroll_docs(-4),
                 ["<C-f>"] = cmp.mapping.scroll_docs(4),
-
-                -- Accept ([y]es) the completion.
-                --  This will auto-import if your LSP supports it.
-                --  This will expand snippets if the LSP sent a snippet.
-                -- ["<C-y>"] = cmp.mapping.confirm({
-                --   select = true,
-                -- }),
-
-                -- If you prefer more traditional completion keymaps,
-                -- you can uncomment the following lines
                 ["<CR>"] = cmp.mapping.confirm({
                     select = true
                 }),
                 ["<Tab>"] = cmp.mapping.select_next_item(),
                 ["<S-Tab>"] = cmp.mapping.select_prev_item(),
                 ["<Esc>"] = cmp.mapping.abort(),
-                -- Manually trigger a completion from nvim-cmp.
-                --  Generally you don't need this, because nvim-cmp will display
-                --  completions whenever it has completion options available.
                 ["<C-Space>"] = cmp.mapping.complete({}),
-
-                -- Select the [n]ext item
-                -- ['<C-n>'] = cmp.mapping.select_next_item(),
-                -- -- Select the [p]revious item
-                -- ['<C-p>'] = cmp.mapping.select_prev_item(),
-
-                -- -- Scroll the documentation window [b]ack / [f]orward
-                -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-                -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
-
-                -- -- Accept ([y]es) the completion.
-                -- --  This will auto-import if your LSP supports it.
-                -- --  This will expand snippets if the LSP sent a snippet.
-                -- ['<C-y>'] = cmp.mapping.confirm { select = true },
-
-                -- -- If you prefer more traditional completion keymaps,
-                -- -- you can uncomment the following lines
-                -- --['<CR>'] = cmp.mapping.confirm { select = true },
-                -- --['<Tab>'] = cmp.mapping.select_next_item(),
-                -- --['<S-Tab>'] = cmp.mapping.select_prev_item(),
-
-                -- -- Manually trigger a completion from nvim-cmp.
-                -- --  Generally you don't need this, because nvim-cmp will display
-                -- --  completions whenever it has completion options available.
-                -- ['<C-Space>'] = cmp.mapping.complete {},
-
-                -- Think of <c-l> as moving to the right of your snippet expansion.
-                --  So if you have a snippet that's like:
-                --  function $name($args)
-                --    $body
-                --  end
-                --
-                -- <c-l> will move you to the right of each of the expansion locations.
-                -- <c-h> is similar, except moving you backwards.
                 ['<C-l>'] = cmp.mapping(function()
                     if luasnip.expand_or_locally_jumpable() then
                         luasnip.expand_or_jump()
