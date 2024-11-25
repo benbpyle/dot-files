@@ -15,6 +15,11 @@ return { -- So for api plugins like devicons, we can always set lazy=true
     }},
     opts = {
         filesystem = {
+            bind_to_cwd = false,
+            follow_current_file = {
+                enabled = true
+            },
+            use_libuv_file_watcher = true,
             filtered_items = {
                 visible = true,
                 show_hidden_count = true,

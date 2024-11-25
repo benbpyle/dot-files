@@ -70,6 +70,19 @@ return {{
                 clear = true
             }),
             callback = function(event)
+
+                local bufnr = event.buf
+                local client = vim.lsp.get_client_by_id(event.data.client_id)
+                if vim.tbl_contains({'null-ls'}, client.name) then -- blacklist lsp
+                    return
+                end
+                require("lsp_signature").on_attach({
+                    bind = true,
+                    handler_opts = {
+                        border = "rounded"
+                    }
+                }, bufnr)
+
                 -- NOTE: Remember that Lua is a real programming language, and as such it is possible
                 -- to define small helper and utility functions so you don't have to repeat yourself.
                 --

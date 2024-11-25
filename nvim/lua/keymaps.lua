@@ -79,3 +79,15 @@ vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", {
     desc = "Increase Window Width"
 })
 -- resize buffers
+
+-- vim.keymap.set("n", "<Tab>", "<cmd>bnext<cr>", {
+--     desc = "Next Buffer"
+-- })
+
+-- vim.keymap.set("n", "<S-Tab>", "<cmd>bprev<cr>", {
+--     desc = "Previous Buffer"
+-- })
+
+vim.keymap.set("n", "<leader>bd", "<cmd>bd<cr>", {
+    desc = "[B]uffer [D]elete"
+})
