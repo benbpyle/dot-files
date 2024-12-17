@@ -36,6 +36,16 @@ return {{
     }, -- Allows extra capabilities provided by nvim-cmp
     'hrsh7th/cmp-nvim-lsp'},
     config = function()
+
+        local border = {{'┌', 'FloatBorder'}, {'─', 'FloatBorder'}, {'┐', 'FloatBorder'}, {'│', 'FloatBorder'},
+                        {'┘', 'FloatBorder'}, {'─', 'FloatBorder'}, {'└', 'FloatBorder'}, {'│', 'FloatBorder'}}
+
+        local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+        function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+            opts = opts or {}
+            opts.border = opts.border or border
+            return orig_util_open_floating_preview(contents, syntax, opts, ...)
+        end
         -- Brief aside: **What is LSP?**
         --
         -- LSP is an initialism you've probably heard, but might not understand what it is.
@@ -115,7 +125,8 @@ return {{
 
                 -- Fuzzy find all the symbols in your current document.
                 --  Symbols are things like variables, functions, types, etc.
-                map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+                map('<leader>ss', require('telescope.builtin').lsp_document_symbols, 'Document Symbols')
+                map('<leader>sS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace Symbols')
 
                 -- Fuzzy find all the symbols in your current workspace.
                 --  Similar to document symbols, except searches over your entire project.
@@ -184,13 +195,22 @@ return {{
         })
 
         -- Change diagnostic symbols in the sign column (gutter)
-        -- if vim.g.have_nerd_font then
-        --   local signs = { Error = '', Warn = '', Hint = '', Info = '' }
-        --   for type, icon in pairs(signs) do
-        --     local hl = 'DiagnosticSign' .. type
-        --     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-        --   end
-        -- end
+        if vim.g.have_nerd_font then
+            local signs = {
+                Error = '',
+                Warn = '',
+                Hint = '',
+                Info = ''
+            }
+            for type, icon in pairs(signs) do
+                local hl = 'DiagnosticSign' .. type
+                vim.fn.sign_define(hl, {
+                    text = icon,
+                    texthl = hl,
+                    numhl = hl
+                })
+            end
+        end
 
         -- LSP servers and clients are able to communicate to each other what features they support.
         --  By default, Neovim doesn't support everything that is in the LSP specification.

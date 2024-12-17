@@ -79,9 +79,9 @@ return {{ -- Fuzzy Finder (files, lsp, etc)
         vim.keymap.set('n', '<leader>sb', builtin.buffers, {
             desc = '[S]earch [B]uffers]'
         })
-        vim.keymap.set('n', '<leader>ss', builtin.builtin, {
-            desc = '[S]earch [S]elect Telescope'
-        })
+        -- vim.keymap.set('n', '<leader>ss', builtin.builtin, {
+        --     desc = '[S]earch [S]elect Telescope'
+        -- })
         vim.keymap.set('n', '<leader>sw', builtin.grep_string, {
             desc = '[S]earch current [W]ord'
         })

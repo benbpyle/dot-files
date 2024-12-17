@@ -45,19 +45,20 @@ return {{ -- Autocompletion
             --     documentation = cmp.config.window.bordered()
             -- },
             window = {
-                completion = {
-                    winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
-                    col_offset = -3,
-                    side_padding = 0
-                }
+                completion = cmp.config.window.bordered(),
+                documentation = cmp.config.window.bordered()
+                -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+                -- col_offset = -3,
+                -- side_padding = 0
+
             },
             -- preselect = cmp.PreselectMode.,
-            completion = {
-                completion = cmp.config.window.bordered({
-                    winhighlight = "Normal:Normal,FloatBorder:BorderBG,CursorLine:PmenuSel,Search:None"
-                }),
-                completeopt = "menu,menuone,noinsert,noselect"
-            },
+            -- completion = {
+            --     completion = cmp.config.window.bordered({
+            --         winhighlight = "Normal:Normal,FloatBorder:BorderBG,CursorLine:PmenuSel,Search:None"
+            --     }),
+            --     completeopt = "menu,menuone,noinsert,noselect"
+            -- },
 
             formatting = {
                 fields = {"kind", "abbr", "menu"},
