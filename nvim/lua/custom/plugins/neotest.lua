@@ -1,14 +1,14 @@
 return {
     "nvim-neotest/neotest",
     dependencies = {"nvim-neotest/nvim-nio", "nvim-lua/plenary.nvim", "antoinemadec/FixCursorHold.nvim",
-                    "nvim-treesitter/nvim-treesitter", "nvim-neotest/neotest-go"},
+                    "nvim-treesitter/nvim-treesitter", "nvim-neotest/neotest-go", "rouge8/neotest-rust"},
 
     opts = {
         -- Can be a list of adapters like what neotest expects,
         -- or a list of adapter names,
         -- or a table of adapter names, mapped to adapter configs.
         -- The adapter will then be automatically loaded with the config.
-        adapters = {'rustaceanvim.neotest', "neotest-go"},
+        adapters = {'neotest-rust', "neotest-go"},
         -- Example for loading neotest-golang with a custom config
         -- adapters = {
         --   ["neotest-golang"] = {

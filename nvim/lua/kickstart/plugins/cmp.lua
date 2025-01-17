@@ -13,17 +13,15 @@ return {{ -- Autocompletion
             end
             return 'make install_jsregexp'
         end)(),
-        dependencies = {
-            -- `friendly-snippets` contains a variety of premade snippets.
-            --    See the README about individual language/framework/plugin snippets:
-            --    https://github.com/rafamadriz/friendly-snippets
-            -- {
-            --   'rafamadriz/friendly-snippets',
-            --   config = function()
-            --     require('luasnip.loaders.from_vscode').lazy_load()
-            --   end,
-            -- },
-        }
+        dependencies = { -- `friendly-snippets` -- contains a variety of premade snippets.
+        -- See the README about individual language/framework/plugin snippets:
+        -- https://github.com/rafamadriz/friendly-snippets
+        {
+            'rafamadriz/friendly-snippets',
+            config = function()
+                require('luasnip.loaders.from_vscode').lazy_load()
+            end
+        }}
     }, 'saadparwaiz1/cmp_luasnip', -- Adds other completion capabilities.
     --  nvim-cmp does not ship with all sources by default. They are split
     --  into multiple repos for maintenance purposes.
@@ -35,22 +33,32 @@ return {{ -- Autocompletion
         luasnip.config.setup {}
 
         cmp.setup {
+            enabled = function()
+                if require"cmp.config.context".in_treesitter_capture("comment") == true or
+                    require"cmp.config.context".in_syntax_group("Comment") then
+                    return false
+
+                end
+
+                return vim.api.nvim_get_option_value("buftype", {
+                    buf = 0
+                }) ~= "prompt"
+
+                -- or require("cmp_dap").is_dap_buffer()                
+
+            end,
+
             snippet = {
                 expand = function(args)
                     luasnip.lsp_expand(args.body)
                 end
             },
-            -- window = {
-            --     completion = cmp.config.window.bordered(),
-            --     documentation = cmp.config.window.bordered()
-            -- },
             window = {
                 completion = cmp.config.window.bordered(),
-                documentation = cmp.config.window.bordered()
-                -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
-                -- col_offset = -3,
-                -- side_padding = 0
-
+                documentation = cmp.config.window.bordered(),
+                winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+                col_offset = -3,
+                side_padding = 0
             },
             -- preselect = cmp.PreselectMode.,
             -- completion = {
@@ -61,17 +69,17 @@ return {{ -- Autocompletion
             -- },
 
             formatting = {
-                fields = {"kind", "abbr", "menu"},
+                fields = {'kind', 'abbr', 'menu'},
                 format = function(entry, vim_item)
-                    local kind = require("lspkind").cmp_format({
-                        mode = "symbol_text",
+                    local kind = require('lspkind').cmp_format {
+                        mode = 'symbol_text',
                         maxwidth = 50
-                    })(entry, vim_item)
-                    local strings = vim.split(kind.kind, "%s", {
+                    }(entry, vim_item)
+                    local strings = vim.split(kind.kind, '%s', {
                         trimempty = true
                     })
-                    kind.kind = " " .. (strings[1] or "") .. " "
-                    kind.menu = "    (" .. (strings[2] or "") .. ")"
+                    kind.kind = ' ' .. (strings[1] or '') .. ' '
+                    kind.menu = '    (' .. (strings[2] or '') .. ')'
 
                     return kind
                 end
@@ -79,15 +87,15 @@ return {{ -- Autocompletion
             preselect = cmp.PreselectMode.None,
             mapping = cmp.mapping.preset.insert {
 
-                ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-                ["<C-f>"] = cmp.mapping.scroll_docs(4),
-                ["<CR>"] = cmp.mapping.confirm({
+                ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                ['<CR>'] = cmp.mapping.confirm {
                     select = true
-                }),
-                ["<Tab>"] = cmp.mapping.select_next_item(),
-                ["<S-Tab>"] = cmp.mapping.select_prev_item(),
-                ["<Esc>"] = cmp.mapping.abort(),
-                ["<C-Space>"] = cmp.mapping.complete({}),
+                },
+                ['<Tab>'] = cmp.mapping.select_next_item(),
+                ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+                ['<Esc>'] = cmp.mapping.abort(),
+                ['<C-Space>'] = cmp.mapping.complete {},
                 ['<C-l>'] = cmp.mapping(function()
                     if luasnip.expand_or_locally_jumpable() then
                         luasnip.expand_or_jump()
@@ -111,6 +119,7 @@ return {{ -- Autocompletion
             }, {
                 name = 'luasnip'
             }, {
+
                 name = 'path'
             }}
         }
