@@ -2,6 +2,7 @@ return {
   'folke/snacks.nvim',
   priority = 1000,
   lazy = false,
+  ---@module "snacks"
   ---@type snacks.Config
   opts = {
     bigfile = {
@@ -33,6 +34,12 @@ return {
       enabled = true,
       timeout = 3000,
     },
+    picker = {
+      -- your picker configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+      enabled = true,
+    },
     quickfile = {
       enabled = false,
     },
@@ -53,143 +60,368 @@ return {
   },
   keys = {
     {
-      '<leader>z',
+      '<leader><space>',
       function()
-        Snacks.zen()
+        Snacks.picker.smart()
       end,
-      desc = 'Toggle Zen Mode',
+      desc = 'Smart Find Files',
     },
     {
-      '<leader>Z',
+      '<leader>,',
       function()
-        Snacks.zen.zoom()
+        Snacks.picker.buffers()
       end,
-      desc = 'Toggle Zoom',
+      desc = 'Buffers',
     },
     {
-      '<leader>.',
+      '<leader>/',
       function()
-        Snacks.scratch()
+        Snacks.picker.grep()
       end,
-      desc = 'Toggle Scratch Buffer',
+      desc = 'Grep',
     },
     {
-      '<leader>S',
+      '<leader>:',
       function()
-        Snacks.scratch.select()
+        Snacks.picker.command_history()
       end,
-      desc = 'Select Scratch Buffer',
+      desc = 'Command History',
     },
     {
       '<leader>n',
       function()
-        Snacks.notifier.show_history()
+        Snacks.picker.notifications()
       end,
       desc = 'Notification History',
     },
     {
-      '<leader>bd',
+      '<leader>e',
       function()
-        Snacks.bufdelete()
+        Snacks.explorer()
       end,
-      desc = 'Delete Buffer',
+      desc = 'File Explorer',
+    },
+    -- find
+    {
+      '<leader>fb',
+      function()
+        Snacks.picker.buffers()
+      end,
+      desc = 'Buffers',
     },
     {
-      '<leader>cR',
+      '<leader>fc',
       function()
-        Snacks.rename.rename_file()
+        Snacks.picker.files { cwd = vim.fn.stdpath 'config' }
       end,
-      desc = 'Rename File',
+      desc = 'Find Config File',
     },
     {
-      '<leader>gB',
+      '<leader>ff',
       function()
-        Snacks.gitbrowse()
+        Snacks.picker.files()
       end,
-      desc = 'Git Browse',
+      desc = 'Find Files',
     },
+    {
+      '<leader>fg',
+      function()
+        Snacks.picker.git_files()
+      end,
+      desc = 'Find Git Files',
+    },
+    {
+      '<leader>fp',
+      function()
+        Snacks.picker.projects()
+      end,
+      desc = 'Projects',
+    },
+    {
+      '<leader>fr',
+      function()
+        Snacks.picker.recent()
+      end,
+      desc = 'Recent',
+    },
+    -- git
     {
       '<leader>gb',
       function()
-        Snacks.git.blame_line()
+        Snacks.picker.git_branches()
       end,
-      desc = 'Git Blame Line',
-    },
-    {
-      '<leader>gf',
-      function()
-        Snacks.lazygit.log_file()
-      end,
-      desc = 'Lazygit Current File History',
-    },
-    {
-      '<leader>gg',
-      function()
-        Snacks.lazygit()
-      end,
-      desc = 'Lazygit',
+      desc = 'Git Branches',
     },
     {
       '<leader>gl',
       function()
-        Snacks.lazygit.log()
+        Snacks.picker.git_log()
       end,
-      desc = 'Lazygit Log (cwd)',
+      desc = 'Git Log',
     },
     {
-      '<leader>un',
+      '<leader>gL',
       function()
-        Snacks.notifier.hide()
+        Snacks.picker.git_log_line()
       end,
-      desc = 'Dismiss All Notifications',
+      desc = 'Git Log Line',
     },
     {
-      '<c-/>',
+      '<leader>gs',
       function()
-        Snacks.terminal()
+        Snacks.picker.git_status()
       end,
-      desc = 'Toggle Terminal',
+      desc = 'Git Status',
     },
     {
-      '<c-_>',
+      '<leader>gS',
       function()
-        Snacks.terminal()
+        Snacks.picker.git_stash()
       end,
-      desc = 'which_key_ignore',
+      desc = 'Git Stash',
     },
     {
-      ']]',
+      '<leader>gd',
       function()
-        Snacks.words.jump(vim.v.count1)
+        Snacks.picker.git_diff()
       end,
-      desc = 'Next Reference',
-      mode = { 'n', 't' },
+      desc = 'Git Diff (Hunks)',
     },
     {
-      '[[',
+      '<leader>gf',
       function()
-        Snacks.words.jump(-vim.v.count1)
+        Snacks.picker.git_log_file()
       end,
-      desc = 'Prev Reference',
-      mode = { 'n', 't' },
+      desc = 'Git Log File',
+    },
+    -- Grep
+    {
+      '<leader>sb',
+      function()
+        Snacks.picker.lines()
+      end,
+      desc = 'Buffer Lines',
     },
     {
-      '<leader>N',
-      desc = 'Neovim News',
+      '<leader>sB',
       function()
-        Snacks.win {
-          file = vim.api.nvim_get_runtime_file('doc/news.txt', false)[1],
-          width = 0.6,
-          height = 0.6,
-          wo = {
-            spell = false,
-            wrap = false,
-            signcolumn = 'yes',
-            statuscolumn = ' ',
-            conceallevel = 3,
-          },
-        }
+        Snacks.picker.grep_buffers()
       end,
+      desc = 'Grep Open Buffers',
+    },
+    {
+      '<leader>sg',
+      function()
+        Snacks.picker.grep()
+      end,
+      desc = 'Grep',
+    },
+    {
+      '<leader>sw',
+      function()
+        Snacks.picker.grep_word()
+      end,
+      desc = 'Visual selection or word',
+      mode = { 'n', 'x' },
+    },
+    -- search
+    {
+      '<leader>s"',
+      function()
+        Snacks.picker.registers()
+      end,
+      desc = 'Registers',
+    },
+    {
+      '<leader>s/',
+      function()
+        Snacks.picker.search_history()
+      end,
+      desc = 'Search History',
+    },
+    {
+      '<leader>sa',
+      function()
+        Snacks.picker.autocmds()
+      end,
+      desc = 'Autocmds',
+    },
+    {
+      '<leader>sb',
+      function()
+        Snacks.picker.lines()
+      end,
+      desc = 'Buffer Lines',
+    },
+    {
+      '<leader>sc',
+      function()
+        Snacks.picker.command_history()
+      end,
+      desc = 'Command History',
+    },
+    {
+      '<leader>sC',
+      function()
+        Snacks.picker.commands()
+      end,
+      desc = 'Commands',
+    },
+    {
+      '<leader>sd',
+      function()
+        Snacks.picker.diagnostics()
+      end,
+      desc = 'Diagnostics',
+    },
+    {
+      '<leader>sD',
+      function()
+        Snacks.picker.diagnostics_buffer()
+      end,
+      desc = 'Buffer Diagnostics',
+    },
+    {
+      '<leader>sh',
+      function()
+        Snacks.picker.help()
+      end,
+      desc = 'Help Pages',
+    },
+    {
+      '<leader>sH',
+      function()
+        Snacks.picker.highlights()
+      end,
+      desc = 'Highlights',
+    },
+    {
+      '<leader>si',
+      function()
+        Snacks.picker.icons()
+      end,
+      desc = 'Icons',
+    },
+    {
+      '<leader>sj',
+      function()
+        Snacks.picker.jumps()
+      end,
+      desc = 'Jumps',
+    },
+    {
+      '<leader>sk',
+      function()
+        Snacks.picker.keymaps()
+      end,
+      desc = 'Keymaps',
+    },
+    {
+      '<leader>sl',
+      function()
+        Snacks.picker.loclist()
+      end,
+      desc = 'Location List',
+    },
+    {
+      '<leader>sm',
+      function()
+        Snacks.picker.marks()
+      end,
+      desc = 'Marks',
+    },
+    {
+      '<leader>sM',
+      function()
+        Snacks.picker.man()
+      end,
+      desc = 'Man Pages',
+    },
+    {
+      '<leader>sp',
+      function()
+        Snacks.picker.lazy()
+      end,
+      desc = 'Search for Plugin Spec',
+    },
+    {
+      '<leader>sq',
+      function()
+        Snacks.picker.qflist()
+      end,
+      desc = 'Quickfix List',
+    },
+    {
+      '<leader>sR',
+      function()
+        Snacks.picker.resume()
+      end,
+      desc = 'Resume',
+    },
+    {
+      '<leader>su',
+      function()
+        Snacks.picker.undo()
+      end,
+      desc = 'Undo History',
+    },
+    {
+      '<leader>uC',
+      function()
+        Snacks.picker.colorschemes()
+      end,
+      desc = 'Colorschemes',
+    },
+    -- LSP
+    {
+      'gd',
+      function()
+        Snacks.picker.lsp_definitions()
+      end,
+      desc = 'Goto Definition',
+    },
+    {
+      'gD',
+      function()
+        Snacks.picker.lsp_declarations()
+      end,
+      desc = 'Goto Declaration',
+    },
+    {
+      'gr',
+      function()
+        Snacks.picker.lsp_references()
+      end,
+      nowait = true,
+      desc = 'References',
+    },
+    {
+      'gI',
+      function()
+        Snacks.picker.lsp_implementations()
+      end,
+      desc = 'Goto Implementation',
+    },
+    {
+      'gy',
+      function()
+        Snacks.picker.lsp_type_definitions()
+      end,
+      desc = 'Goto T[y]pe Definition',
+    },
+    {
+      '<leader>ss',
+      function()
+        Snacks.picker.lsp_symbols()
+      end,
+      desc = 'LSP Symbols',
+    },
+    {
+      '<leader>sS',
+      function()
+        Snacks.picker.lsp_workspace_symbols()
+      end,
+      desc = 'LSP Workspace Symbols',
     },
   },
   init = function()
@@ -206,40 +438,31 @@ return {
         vim.print = _G.dd -- Override print to use snacks for `:=` command
 
         -- Create some toggle mappings
-        Snacks.toggle
-          .option('spell', {
-            name = 'Spelling',
-          })
-          :map '<leader>us'
-        Snacks.toggle
-          .option('wrap', {
-            name = 'Wrap',
-          })
-          :map '<leader>uw'
-        Snacks.toggle
-          .option('relativenumber', {
-            name = 'Relative Number',
-          })
-          :map '<leader>uL'
-        Snacks.toggle.diagnostics():map '<leader>ud'
-        Snacks.toggle.line_number():map '<leader>ul'
-        Snacks.toggle
-          .option('conceallevel', {
-            off = 0,
-            on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2,
-          })
-          :map '<leader>uc'
-        Snacks.toggle.treesitter():map '<leader>uT'
-        Snacks.toggle
-          .option('background', {
-            off = 'light',
-            on = 'dark',
-            name = 'Dark Background',
-          })
-          :map '<leader>ub'
-        Snacks.toggle.inlay_hints():map '<leader>uh'
-        Snacks.toggle.indent():map '<leader>ug'
-        Snacks.toggle.dim():map '<leader>uD'
+        -- Snacks.toggle
+        --   .option('spell', {
+        --     name = 'Spelling',
+        --   })
+        --   :map '<leader>us'
+        -- Snacks.toggle
+        --   .option('wrap', {
+        --     name = 'Wrap',
+        --   })
+        --   :map '<leader>uw'
+        -- Snacks.toggle
+        --   .option('relativenumber', {
+        --     name = 'Relative Number',
+        --   })
+        --   :map '<leader>uL'
+        -- Snacks.toggle.diagnostics():map '<leader>ud'
+        -- Snacks.toggle.line_number():map '<leader>ul'
+        -- Snacks.toggle
+        --   .option('conceallevel', {
+        --     off = 0,
+        --     on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2,
+        --   })
+        --   :map '<leader>uc'
+        -- Snacks.toggle.treesitter():map '<leader>uT'
+        -- Snacks.toggle.inlay_hints():map '<leader>uh'
       end,
     })
   end,
