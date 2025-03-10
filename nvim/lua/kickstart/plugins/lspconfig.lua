@@ -70,12 +70,12 @@ return {
           if vim.tbl_contains({ 'null-ls' }, client.name) then -- blacklist lsp
             return
           end
-          require('lsp_signature').on_attach({
-            bind = true,
-            handler_opts = {
-              border = 'rounded',
-            },
-          }, bufnr)
+          -- require('lsp_signature').on_attach({
+          --   bind = true,
+          --   handler_opts = {
+          --     border = 'rounded',
+          --   },
+          -- }, bufnr)
 
           local map = function(keys, func, desc, mode)
             mode = mode or 'n'
@@ -163,13 +163,13 @@ return {
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
-          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-            map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled {
-                bufnr = event.buf,
-              })
-            end, '[T]oggle Inlay [H]ints')
-          end
+          -- if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+          --   map('<leader>th', function()
+          --     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled {
+          --       bufnr = event.buf,
+          --     })
+          --   end, '[T]oggle Inlay [H]ints')
+          -- end
         end,
       })
 
@@ -208,7 +208,20 @@ return {
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-
+        intelephense = {
+          init_options = {
+            licenceKey = '00T5FHWDVV23UZ0',
+          },
+          -- See https://github.com/bmewburn/intelephense-docs
+          settings = {
+            intelephense = {
+              files = {
+                maxSize = 1000000,
+              },
+            },
+          },
+        },
+        omnisharp = {},
         -- clangd = {},
         gopls = {
           settings = {

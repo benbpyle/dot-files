@@ -11,14 +11,32 @@ return {
     dashboard = {
       enabled = true,
       sections = {
+        { section = 'header' },
+        -- {
+        --   pane = 2,
+        --   section = 'terminal',
+        --   -- cmd = 'colorscript -e square',
+        --   height = 5,
+        --   padding = 1,
+        -- },
+        { section = 'keys', gap = 1, padding = 1 },
+        { pane = 2, icon = ' ', title = 'Recent Files', section = 'recent_files', indent = 2, padding = 1 },
+        { pane = 2, icon = ' ', title = 'Projects', section = 'projects', indent = 2, padding = 1 },
         {
-          section = 'header',
-        },
-        {
-          section = 'keys',
-          gap = 1,
+          pane = 2,
+          icon = ' ',
+          title = 'Git Status',
+          section = 'terminal',
+          enabled = function()
+            return Snacks.git.get_root() ~= nil
+          end,
+          cmd = 'git status --short --branch --renames',
+          height = 5,
           padding = 1,
+          ttl = 5 * 60,
+          indent = 3,
         },
+        { section = 'startup' },
       },
     },
     lazyGit = {
@@ -59,6 +77,13 @@ return {
     },
   },
   keys = {
+    {
+      '<leader>bd',
+      function()
+        Snacks.bufdelete()
+      end,
+      desc = 'Delete Buffer',
+    },
     {
       '<leader><space>',
       function()
@@ -423,6 +448,27 @@ return {
       end,
       desc = 'LSP Workspace Symbols',
     },
+    -- {
+    --   '<leader>ul',
+    --   function()
+    --     Snacks.toggle.line_number()
+    --   end,
+    --   desc = 'Toggle Line Numbers',
+    -- },
+    -- {
+    --   '<leader>uT',
+    --   function()
+    --     Snacks.toggle.treesitter()
+    --   end,
+    --   desc = 'Toggle Treesitter',
+    -- },
+    -- {
+    --   '<leader>uh',
+    --   function()
+    --     Snacks.toggle.inlay_hints()
+    --   end,
+    --   desc = 'Toggle Inlay Hints',
+    -- },
   },
   init = function()
     vim.api.nvim_create_autocmd('User', {
@@ -461,8 +507,8 @@ return {
         --     on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2,
         --   })
         --   :map '<leader>uc'
-        -- Snacks.toggle.treesitter():map '<leader>uT'
-        -- Snacks.toggle.inlay_hints():map '<leader>uh'
+        Snacks.toggle.treesitter():map '<leader>uT'
+        Snacks.toggle.inlay_hints():map '<leader>uh'
       end,
     })
   end,

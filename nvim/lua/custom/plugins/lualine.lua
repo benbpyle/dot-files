@@ -9,6 +9,8 @@ return {
       options = {
         -- ... your lualine config
         theme = 'catppuccin',
+        'filename',
+        path = 2,
         -- ... your lualine config
       },
     }

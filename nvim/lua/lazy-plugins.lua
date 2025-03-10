@@ -80,3 +80,22 @@ require('lazy').setup({ -- NOTE: Plugins can be added with a link (or for a gith
 })
 
 -- vim: ts=2 sts=2 sw=2 et
+--
+local dap = require 'dap'
+
+dap.adapters.coreclr = {
+  type = 'executable',
+  command = '/usr/local/bin/netcoredbg/netcoredbg',
+  args = { '--interpreter=vscode' },
+}
+
+dap.configurations.cs = {
+  {
+    type = 'coreclr',
+    name = 'launch - netcoredbg',
+    request = 'launch',
+    program = function()
+      return vim.fn.input('Path to dll', vim.fn.getcwd() .. '/bin/Debug/', 'file')
+    end,
+  },
+}
