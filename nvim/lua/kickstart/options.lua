@@ -19,7 +19,7 @@ vim.opt.showmode = false
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-    vim.opt.clipboard = 'unnamedplus'
+  vim.opt.clipboard = 'unnamedplus'
 end)
 
 -- Enable break indent
@@ -51,9 +51,9 @@ vim.opt.splitbelow = true
 --  and `:help 'listchars'`
 vim.opt.list = true
 vim.opt.listchars = {
-    tab = '» ',
-    trail = '·',
-    nbsp = '␣'
+  tab = '» ',
+  trail = '·',
+  nbsp = '␣',
 }
 
 -- Preview substitutions live, as you type!
@@ -67,8 +67,10 @@ vim.opt.scrolloff = 10
 
 -- vim: ts=2 sts=2 sw=2 et
 
+-- turn off netrw file manager
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
 vim.opt.wrap = true
 vim.o.timeoutlen = 1000
 
