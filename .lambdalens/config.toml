@@ -1,0 +1,10 @@
+[aws]
+timeout = 30
+
+[behavior]
+auto_refresh = true
+refresh_interval = 30
+default_view = "functions"
+
+[ui]
+theme = "dark"
