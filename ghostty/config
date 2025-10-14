@@ -1,0 +1,38 @@
+# Ghostty Configuration
+# Converted from WezTerm config
+
+# Font Configuration
+font-family = JetBrainsMono Nerd Font
+
+# Theme and Colors
+# Using Catppuccin Frappe theme
+theme = Catppuccin Frappe
+
+# Custom background color (Catppuccin Frappe default)
+background = #303446
+
+# Cursor Configuration
+cursor-style = block
+
+# Window Padding
+# Converted from WezTerm: left=.5cell, right=.5cell, top=0.0cell, bottom=0.0cell
+# Ghostty uses pixel values - approximate conversion
+window-padding-x = 12
+window-padding-y = 8
+
+# Tab Bar Configuration
+# Disable tab bar (equivalent to WezTerm's enable_tab_bar = false)
+window-decoration = true
+
+# Performance / Display
+# Keep vsync enabled for smooth rendering
+# Note: WezTerm had max_fps=240, but Ghostty handles this differently
+window-vsync = true
+
+# Keybindings
+# Ctrl+Shift+E to rename current tab (equivalent to WezTerm keybinding)
+keybind = ctrl+shift+e=new_tab
+
+# Note: Window borders with custom colors from WezTerm are not directly
+# supported in Ghostty. Ghostty uses native window decorations or its
+# own styling system.
