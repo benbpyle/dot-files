@@ -52,11 +52,11 @@ return {
       ['g?'] = 'actions.show_help',
       ['<CR>'] = 'actions.select',
       ['<C-s>'] = 'actions.select_vsplit',
-      ['<C-h>'] = 'actions.select_split',
+      ['<C-h>'] = false, -- Disabled for tmux-navigator (use alternative below)
       ['<C-t>'] = 'actions.select_tab',
       ['<C-p>'] = 'actions.preview',
       ['<C-c>'] = 'actions.close',
-      ['<C-l>'] = 'actions.refresh',
+      ['<C-l>'] = false, -- Disabled for tmux-navigator (use 'gr' instead)
       ['-'] = 'actions.parent',
       ['_'] = 'actions.open_cwd',
       ['`'] = 'actions.cd',
@@ -69,6 +69,10 @@ return {
       -- Custom keymaps
       ['q'] = 'actions.close',
       ['<Esc>'] = 'actions.close',
+
+      -- Alternative keymaps to replace disabled ones
+      ['<C-x>'] = 'actions.select_split', -- Horizontal split (was <C-h>)
+      ['gr'] = 'actions.refresh', -- Refresh (was <C-l>)
     },
 
     -- Set to false to disable all of the above keymaps

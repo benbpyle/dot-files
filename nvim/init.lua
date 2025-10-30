@@ -227,59 +227,9 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    opts = {
-      -- delay between pressing a key and opening which-key (milliseconds)
-      -- this setting is independent of vim.o.timeoutlen
-      preset = 'helix',
-      delay = 1,
-      icons = {
-        -- set icon mappings to true if you have a Nerd Font
-        mappings = vim.g.have_nerd_font,
-        -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-        -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
-        keys = vim.g.have_nerd_font and {} or {
-          Up = '<Up> ',
-          Down = '<Down> ',
-          Left = '<Left> ',
-          Right = '<Right> ',
-          C = '<C-…> ',
-          M = '<M-…> ',
-          D = '<D-…> ',
-          S = '<S-…> ',
-          CR = '<CR> ',
-          Esc = '<Esc> ',
-          ScrollWheelDown = '<ScrollWheelDown> ',
-          ScrollWheelUp = '<ScrollWheelUp> ',
-          NL = '<NL> ',
-          BS = '<BS> ',
-          Space = '<Space> ',
-          Tab = '<Tab> ',
-          F1 = '<F1>',
-          F2 = '<F2>',
-          F3 = '<F3>',
-          F4 = '<F4>',
-          F5 = '<F5>',
-          F6 = '<F6>',
-          F7 = '<F7>',
-          F8 = '<F8>',
-          F9 = '<F9>',
-          F10 = '<F10>',
-          F11 = '<F11>',
-          F12 = '<F12>',
-        },
-      },
-
-      -- Document existing key chains
-      spec = {
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-      },
-    },
-  },
+  -- NOTE: which-key configuration moved to lua/custom/which-key-config.lua
+  -- This provides comprehensive keybinding documentation with consistent [X] formatting
+  require 'custom.which-key-config',
 
   -- NOTE: Plugins can specify dependencies.
   --
@@ -424,7 +374,25 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      {
+        'j-hui/fidget.nvim',
+        opts = {
+          progress = {
+            display = {
+              done_ttl = 2, -- How long a message should persist after completion (seconds)
+              done_icon = '✓', -- Icon shown when task completes
+              progress_icon = { pattern = 'dots', period = 1 }, -- Loading animation
+              render_limit = 3, -- Max number of messages to show at once
+            },
+          },
+          notification = {
+            window = {
+              winblend = 0, -- No transparency
+              border = 'none', -- Clean, borderless
+            },
+          },
+        },
+      },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -498,11 +466,11 @@ require('lazy').setup({
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
+          map('grO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
+          map('grW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
@@ -922,10 +890,24 @@ require('lazy').setup({
       vim.cmd.colorscheme 'catppuccin-frappe'
 
       -- Override highlights AFTER colorscheme loads
+
+      -- Transparency settings - use terminal background
+      vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+      vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
+      vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
+      vim.api.nvim_set_hl(0, 'LineNr', { bg = 'none' })
+      vim.api.nvim_set_hl(0, 'LineNrAbove', { bg = 'none' })
+      vim.api.nvim_set_hl(0, 'LineNrBelow', { bg = 'none' })
+
+      -- Float windows with slight background (but still respect terminal transparency)
       vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#292c3c', fg = '#cdd6f4' })
       vim.api.nvim_set_hl(0, 'FloatBorder', { bg = '#292c3c', fg = '#89b4fa', bold = true })
       vim.api.nvim_set_hl(0, '@markup.raw.markdown_inline', { bg = '#313244', fg = '#f5c2e7' })
       vim.api.nvim_set_hl(0, '@markup.heading', { fg = '#89b4fa', bold = true })
+
+      -- Noice mini (LSP progress) - clean, polished look
+      vim.api.nvim_set_hl(0, 'NoiceMini', { bg = '#292c3c', fg = '#a6d189' })
+      vim.api.nvim_set_hl(0, 'NoiceMiniTitle', { bg = '#292c3c', fg = '#89b4fa', bold = true })
     end,
   },
 
@@ -959,10 +941,10 @@ require('lazy').setup({
 
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
+      -- cursor location to LINE/TOTAL:COLUMN
       ---@diagnostic disable-next-line: duplicate-set-field
       statusline.section_location = function()
-        return '%2l:%-2v'
+        return '%2l/%L:%-2v'
       end
 
       -- ... and there is more!

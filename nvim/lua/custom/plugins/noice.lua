@@ -1,26 +1,11 @@
 -- noice.nvim - Better UI for messages, cmdline and popupmenu
 return {
   'folke/noice.nvim',
+  enabled = false, -- Disabled to test default UI
   event = 'VeryLazy',
   dependencies = {
     -- Required dependencies
     'MunifTanjim/nui.nvim',
-    -- Optional: nvim-notify for notifications
-    {
-      'rcarriga/nvim-notify',
-      opts = {
-        timeout = 3000,
-        max_height = function()
-          return math.floor(vim.o.lines * 0.75)
-        end,
-        max_width = function()
-          return math.floor(vim.o.columns * 0.75)
-        end,
-        stages = 'fade_in_slide_out',
-        render = 'compact',
-        background_colour = '#1e1e2e',
-      },
-    },
   },
   opts = {
     lsp = {
@@ -47,9 +32,9 @@ return {
     -- Configure messages
     messages = {
       enabled = true,
-      view = 'notify', -- default view for messages
-      view_error = 'notify', -- view for errors
-      view_warn = 'notify', -- view for warnings
+      view = 'notify_popup', -- default view for messages
+      view_error = 'notify_popup', -- view for errors
+      view_warn = 'notify_popup', -- view for warnings
       view_history = 'messages', -- view for :messages
       view_search = 'virtualtext', -- view for search count messages
     },
@@ -61,7 +46,7 @@ return {
     -- Configure notifications
     notify = {
       enabled = true,
-      view = 'notify',
+      view = 'notify_popup',
     },
     -- Configure LSP progress
     lsp_progress = {
@@ -136,6 +121,53 @@ return {
           winhighlight = 'Normal:NormalFloat,FloatBorder:FloatBorder',
           winblend = 10,
         },
+      },
+      mini = {
+        backend = 'mini',
+        relative = 'editor',
+        align = 'message-right',
+        timeout = 2000,
+        reverse = true,
+        position = {
+          row = -2,
+          col = '100%',
+        },
+        size = 'auto',
+        border = {
+          style = 'rounded',
+        },
+        zindex = 60,
+        win_options = {
+          winblend = 0,
+          winhighlight = {
+            Normal = 'NoiceMini',
+            IncSearch = '',
+            CurSearch = '',
+            Search = '',
+          },
+        },
+      },
+      notify_popup = {
+        backend = 'popup',
+        relative = 'editor',
+        position = {
+          row = '10%',
+          col = '100%',
+        },
+        size = {
+          width = 'auto',
+          height = 'auto',
+          max_width = 60,
+        },
+        border = {
+          style = 'rounded',
+          padding = { 0, 1 },
+        },
+        win_options = {
+          winblend = 10,
+          winhighlight = 'Normal:NormalFloat,FloatBorder:FloatBorder',
+        },
+        timeout = 3000,
       },
     },
   },

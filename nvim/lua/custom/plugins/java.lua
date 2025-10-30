@@ -62,11 +62,10 @@ return {
             configuration = {
               updateBuildConfiguration = 'interactive',
               runtimes = {
-                -- Add your Java runtimes here if needed
-                -- {
-                --   name = 'JavaSE-17',
-                --   path = '/path/to/jdk-17',
-                -- },
+                {
+                  name = 'JavaSE-11',
+                  path = '/opt/homebrew/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home',
+                },
               },
             },
             maven = {
