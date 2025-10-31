@@ -62,6 +62,16 @@ vim.keymap.set({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', {
   desc = 'Save file',
 })
 
+-- Save all modified buffers
+vim.keymap.set('n', '<leader>wa', '<cmd>wa<cr>', {
+  desc = '[W]rite [A]ll (Save All)',
+})
+
+-- List all buffers (shows modified with +)
+vim.keymap.set('n', '<leader>bl', '<cmd>ls<cr>', {
+  desc = '[B]uffer [L]ist (shows modified)',
+})
+
 -- vim: ts=2 sts=2 sw=2 et
 
 -- resize buffers
@@ -108,3 +118,19 @@ vim.keymap.set('n', '<leader>wd', '<C-W>c', {
   desc = 'Delete Window',
   remap = true,
 })
+
+-- Custom quit commands that properly close neo-tree and all buffers
+vim.api.nvim_create_user_command('QuitAll', function()
+  -- Close neo-tree if it's open
+  vim.cmd('silent! Neotree close')
+  -- Delete all buffers
+  vim.cmd('silent! %bd')
+  -- Quit
+  vim.cmd('quit')
+end, { desc = 'Close all buffers and windows including neo-tree' })
+
+-- Override qa and qa! to use our custom command
+vim.cmd([[
+  cnoreabbrev qa QuitAll
+  cnoreabbrev qa! qa!<bar>silent! Neotree close<bar>silent! %bd!<bar>quit!
+]])

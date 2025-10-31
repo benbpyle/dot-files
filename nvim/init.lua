@@ -890,14 +890,7 @@ require('lazy').setup({
       vim.cmd.colorscheme 'catppuccin-frappe'
 
       -- Override highlights AFTER colorscheme loads
-
-      -- Transparency settings - use terminal background
-      vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
-      vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
-      vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
-      vim.api.nvim_set_hl(0, 'LineNr', { bg = 'none' })
-      vim.api.nvim_set_hl(0, 'LineNrAbove', { bg = 'none' })
-      vim.api.nvim_set_hl(0, 'LineNrBelow', { bg = 'none' })
+      -- Transparency removed - using colorscheme background
 
       -- Float windows with slight background (but still respect terminal transparency)
       vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#292c3c', fg = '#cdd6f4' })

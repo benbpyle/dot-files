@@ -61,8 +61,9 @@ return {
 
       -- Top-level groups with icons
       { '<leader>a', group = ' [A]erial (Code Outline)', icon = '' },
-      { '<leader>b', group = '󰃀 [B]reakpoints/Buffers', icon = '󰃀' },
+      { '<leader>b', group = '󰘸 [B]uffers', icon = '󰘸' },
       { '<leader>c', group = ' [C]ode (Refactor)', icon = '' },
+      { '<leader>d', group = '󰃤 [D]ebug', icon = '󰃤' },
       { '<leader>f', desc = ' [F]ormat buffer', icon = '' },
       { '<leader>h', group = ' Git [H]unk', mode = { 'n', 'v' }, icon = '' },
       { '<leader>m', group = ' [M]arkdown', icon = '' },
@@ -84,11 +85,10 @@ return {
       { '<leader>ag', desc = '[A]erial [G]o to Symbol' },
 
       -- ───────────────────────────────────────────────────────────
-      -- [B]reakpoints & Buffers
+      -- [B]uffers
       -- ───────────────────────────────────────────────────────────
-      { '<leader>b', desc = 'Toggle [B]reakpoint (Debug)' },
-      { '<leader>B', desc = 'Set [B]reakpoint Condition (Debug)' },
       { '<leader>bd', desc = '[B]uffer [D]elete (Smart)' },
+      { '<leader>bl', desc = '[B]uffer [L]ist (shows modified +)' },
 
       -- ───────────────────────────────────────────────────────────
       -- [C]ode - Refactoring (Java)
@@ -98,6 +98,12 @@ return {
       { '<leader>crc', desc = '[C]ode [R]efactor Extract [C]onstant (Java)', mode = { 'n', 'v' } },
       { '<leader>crm', desc = '[C]ode [R]efactor Extract [M]ethod (Java)', mode = 'v' },
       { '<leader>cr', group = '[C]ode [R]efactor' },
+
+      -- ───────────────────────────────────────────────────────────
+      -- [D]ebug
+      -- ───────────────────────────────────────────────────────────
+      { '<leader>db', desc = '[D]ebug Toggle [B]reakpoint' },
+      { '<leader>dB', desc = '[D]ebug Set [B]reakpoint (Condition)' },
 
       -- ───────────────────────────────────────────────────────────
       -- [H]unk - Git Operations
@@ -121,13 +127,27 @@ return {
       { '<leader>ms', desc = '[M]arkdown Preview [S]top' },
 
       -- ───────────────────────────────────────────────────────────
-      -- [O]il - File Browser
+      -- Neo-Tree File Browser
       -- ───────────────────────────────────────────────────────────
-      { '<leader>of', desc = '[O]il [F]loating Window' },
-      { '<leader>e', desc = 'Open File [E]xplorer (Oil)' },
-      { '-', desc = 'Open Parent Directory (Oil)' },
-      { '_', desc = 'Open Oil in CWD' },
-      { '\\', desc = 'Open Oil File Browser' },
+      { '\\', desc = ' Neo Tree Toggle/Reveal' },
+
+      -- Neo-tree window mappings (active when Neo-tree is open)
+      -- File/Directory operations
+      { '<leader>n', group = ' [N]eo-Tree', icon = '' },
+      { '<leader>nt', desc = '[N]eo-Tree [T]oggle' },
+      { '<leader>nf', desc = '[N]eo-Tree [F]ocus Filesystem' },
+      { '<leader>ng', desc = '[N]eo-Tree [G]it Status' },
+      { '<leader>nb', desc = '[N]eo-Tree [B]uffers' },
+      { '<leader>ns', desc = '[N]eo-Tree Git [S]tatus' },
+
+      -- -- ───────────────────────────────────────────────────────────
+      -- -- [O]il - File Browser (DISABLED)
+      -- -- ───────────────────────────────────────────────────────────
+      -- { '<leader>of', desc = '[O]il [F]loating Window' },
+      -- { '<leader>e', desc = 'Open File [E]xplorer (Oil)' },
+      -- { '-', desc = 'Open Parent Directory (Oil)' },
+      -- { '_', desc = 'Open Oil in CWD' },
+      -- { '\\', desc = 'Open Oil File Browser' },
 
       -- ───────────────────────────────────────────────────────────
       -- [S]earch - Telescope & Spectre
@@ -175,8 +195,9 @@ return {
       { '<leader>th', desc = '[T]oggle Inlay [H]ints (LSP)' },
 
       -- ───────────────────────────────────────────────────────────
-      -- [W]indow Management
+      -- [W]indow Management & Write All
       -- ───────────────────────────────────────────────────────────
+      { '<leader>wa', desc = '[W]rite [A]ll (Save All)' },
       { '<leader>-', desc = 'Split [W]indow Below [-]' },
       { '<leader>|', desc = 'Split [W]indow Right [|]' },
       { '<leader>wd', desc = '[W]indow [D]elete' },
