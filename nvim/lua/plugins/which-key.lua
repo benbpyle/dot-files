@@ -33,6 +33,7 @@ return {
       { "<leader>o", group = "[O]il" },
       { "<leader>m", group = "[M]arkdown" },
       { "<leader>w", group = "[W]indows" },
+      { "<leader>a", group = "[A]erial (Code Outline)" },
 
       -- Special bindings (documented individually)
       { "<leader>f", desc = "[F]ormat buffer" },
@@ -48,6 +49,10 @@ return {
       -- Git navigation
       { "]c", desc = "Next git [c]hange" },
       { "[c", desc = "Previous git [c]hange" },
+
+      -- Aerial navigation (set when aerial attaches to buffer)
+      { "{", desc = "Previous symbol (Aerial)" },
+      { "}", desc = "Next symbol (Aerial)" },
 
       -- Oil navigation
       { "-", desc = "Open parent directory (Oil)" },

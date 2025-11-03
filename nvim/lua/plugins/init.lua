@@ -18,4 +18,5 @@ return {
   -- - autopairs.lua: Auto-close brackets/quotes
   -- - mini-surround.lua: Surround text objects
   -- - markdown-preview.lua: Live markdown preview
+  -- - aerial.lua: Code outline sidebar
 }
